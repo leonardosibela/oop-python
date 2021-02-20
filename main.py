@@ -514,3 +514,197 @@ class Employee:
 
 employee_fourteen = Employee('Nick', 'Fury', 7000)
 print("The number of characters on \"Nick Fury\" (including the space) is " + str(len(employee_fourteen)))
+
+
+########################################################################################################################
+
+# #6 - Property Decorators - Getters, Setters, and Deleters
+
+# Python allow the user of a decorator called property.
+# However, the property decorator is not the same as a property in Kotlin or C#
+# The property decorator is more like a getter in Java, but instead of calling the function, we call the property name
+# Let's create a getter for both the full_name and the email:
+
+
+class Employee:
+    default_raise_amount = 1.04
+
+    def __init__(self, first_name, last_name, pay):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.pay = pay
+        self.employee_raise_amount = 1.04
+
+    def apply_default_raise(self):
+        self.pay = int(self.pay * self.default_raise_amount)
+
+    def apply_raise(self):
+        self.pay = int(self.pay * self.employee_raise_amount)
+
+    @staticmethod
+    def is_work_day(date): return date.weekday == 5 or date.weekday == 6
+
+    @classmethod
+    def from_string(cls, employee_string):
+        first_name, last_name, pay = employee_string.split('-')
+        return cls(first_name, last_name, pay)
+
+    def __repr__(self):
+        return "Employee('{}', '{}', '{}')".format(self.first_name, self.last_name, self.pay)
+
+    def __str__(self):
+        return "'{}' - '{}')".format(self.full_name, self.email)
+
+    def __add__(self, other):
+        return self.pay + other.pay
+
+    def __len__(self):
+        return len(self.full_name)
+
+    @property
+    def full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    @property
+    def email(self):
+        return self.first_name + "." + self.last_name + "@yourcompany.com"
+
+
+employee_fifteen = Employee('Elon', 'Musk', 9900000)
+print(employee_fifteen.full_name)
+print(employee_fifteen.email)
+
+
+# Now in order to create a setter, we have to use a decorator called @{propertyname}.setter
+# i.e. if we want to create a setter for the full_name, the decorator will be @full_name.setter
+# The name of the setter function must be same as the name of the property function
+# Let's create a setter for the full_name and make it alter the first_name and last_name
+
+class Employee:
+    default_raise_amount = 1.04
+
+    def __init__(self, first_name, last_name, pay):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.pay = pay
+        self.employee_raise_amount = 1.04
+
+    def apply_default_raise(self):
+        self.pay = int(self.pay * self.default_raise_amount)
+
+    def apply_raise(self):
+        self.pay = int(self.pay * self.employee_raise_amount)
+
+    @staticmethod
+    def is_work_day(date): return date.weekday == 5 or date.weekday == 6
+
+    @classmethod
+    def from_string(cls, employee_string):
+        first_name, last_name, pay = employee_string.split('-')
+        return cls(first_name, last_name, pay)
+
+    def __repr__(self):
+        return "Employee('{}', '{}', '{}')".format(self.first_name, self.last_name, self.pay)
+
+    def __str__(self):
+        return "'{}' - '{}')".format(self.full_name, self.email)
+
+    def __add__(self, other):
+        return self.pay + other.pay
+
+    def __len__(self):
+        return len(self.full_name)
+
+    @property
+    def full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    @full_name.setter
+    def full_name(self, name):
+        fist_name, last_name = name.split(' ')
+        self.first_name = fist_name
+        self.last_name = last_name
+
+    @property
+    def email(self):
+        return self.first_name + "." + self.last_name + "@yourcompany.com"
+
+
+# Now we can use the setter to alter the full_name
+employee_sixteen = Employee('Ane', 'Joson', 7000)
+print(employee_sixteen.first_name)
+print(employee_sixteen.last_name)
+print(employee_sixteen.full_name)
+print()
+
+employee_sixteen.full_name = 'Anne Jonson'
+print(employee_sixteen.first_name)
+print(employee_sixteen.last_name)
+print(employee_sixteen.full_name)
+
+
+# Now Python has another decorator called deleter which is used to delete a property.
+# The decorator name is @{propertyname}.deletter. Let's create one for the full_name:
+
+class Employee:
+    default_raise_amount = 1.04
+
+    def __init__(self, first_name, last_name, pay):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.pay = pay
+        self.employee_raise_amount = 1.04
+
+    def apply_default_raise(self):
+        self.pay = int(self.pay * self.default_raise_amount)
+
+    def apply_raise(self):
+        self.pay = int(self.pay * self.employee_raise_amount)
+
+    @staticmethod
+    def is_work_day(date): return date.weekday == 5 or date.weekday == 6
+
+    @classmethod
+    def from_string(cls, employee_string):
+        first_name, last_name, pay = employee_string.split('-')
+        return cls(first_name, last_name, pay)
+
+    def __repr__(self):
+        return "Employee('{}', '{}', '{}')".format(self.first_name, self.last_name, self.pay)
+
+    def __str__(self):
+        return "'{}' - '{}')".format(self.full_name, self.email)
+
+    def __add__(self, other):
+        return self.pay + other.pay
+
+    def __len__(self):
+        return len(self.full_name)
+
+    @property
+    def full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    @full_name.setter
+    def full_name(self, name):
+        fist_name, last_name = name.split(' ')
+        self.first_name = fist_name
+        self.last_name = last_name
+
+    @full_name.deleter
+    def full_name(self):
+        print('Delete full_name!')
+        self.first_name = None
+        self.last_name = None
+
+    @property
+    def email(self):
+        return self.first_name + "." + self.last_name + "@yourcompany.com"
+
+
+# Now we can use the del operator to delete the first_name and last_name of an employee
+employee_seventeen = Employee('Guts', 'Knight', 9000)
+del employee_seventeen.full_name
+print(employee_seventeen.first_name)
+print(employee_seventeen.last_name)
+print(employee_seventeen.full_name)
