@@ -328,7 +328,6 @@ manager.print_employees()
 manager.remove_employee(developer)
 manager.print_employees()
 
-
 # Python has two useful functions: isinstance() and issubclass()
 
 # Let us know that manager is instance of Manager
@@ -337,11 +336,190 @@ print('Is manager instance of Manager? ' + str(isinstance(manager, Manager)))
 # Let us know that developer is not instance of Manager
 print('Is developer instance of Manager? ' + str(isinstance(developer, Manager)))
 
-
 # Let us know that Developer class is subclass of Employee
 print('Is Developer subclass of Employee? ' + str(issubclass(Developer, Employee)))
 
 # Let us know that Developer class is not subclass of Manager
 print('Is Developer subclass of Employee? ' + str(issubclass(Developer, Manager)))
 
+########################################################################################################################
 
+# #4 Special (Magic/Dunder) Methods
+
+# On Python there are some special methods called Magic Methods (some also say Dunder for Double Underscore)
+# Those special methods allows to emulate some built in behavior within Python and it's also how we implement
+# operator overloading. When your hear someone saying dunder init, they mean init surrounded by double underscore
+
+# Let's see how the + operator works with two Integers and two Strings:
+
+# The behavior when we add two Integers together, they add the two values together
+print(1 + 2)
+
+# The behavior when we add two Strings together, they concatenate the two values
+print('a' + 'b')
+
+# Depending on the object, the addition has different behaviour
+
+
+# When we print out an employee, it just shows us the class and the memory position this object is in
+print(employee_one)
+
+
+# One of the things we can do with those magic methods is to change this behavior
+
+
+class Employee:
+    default_raise_amount = 1.04
+
+    def __init__(self, first_name, last_name, pay):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.pay = pay
+        self.email = first_name + "." + last_name + "@yourcompany.com"
+        self.employee_raise_amount = 1.04
+
+    # On Python, you do not need to specify the type your function returns
+    def full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    def apply_default_raise(self):
+        self.pay = int(self.pay * self.default_raise_amount)
+
+    def apply_raise(self):
+        self.pay = int(self.pay * self.employee_raise_amount)
+
+    @staticmethod
+    def is_work_day(date): return date.weekday == 5 or date.weekday == 6
+
+    @classmethod
+    def from_string(cls, employee_string):
+        first_name, last_name, pay = employee_string.split('-')
+        return cls(first_name, last_name, pay)
+
+    # Used to find the “official” string representation of an object
+    def __repr__(self):
+        return "Employee('{}', '{}', '{}')".format(self.first_name, self.last_name, self.pay)
+
+    # used to find the “informal”(readable) string representation of an object
+    def __str__(self):
+        return "'{}' - '{}')".format(self.full_name(), self.email)
+
+    # The return value of str() depends on two these two methods:
+    # __str__ being the default choice and __repr__ as a fallback
+
+
+employee_eleven = Employee('Mark', 'Schafer', 50000)
+print(employee_eleven)
+
+
+# When you add two integers together, what is actually being called is the __add__ method from the int class
+print(1 + 2)
+print(int.__add__(1, 2))
+
+
+# When you "add" two strings together, what is actually being called is the __add__ method from the int class
+print('a' + 'b')
+print(str.__add__('a', 'b'))
+
+
+class Employee:
+    default_raise_amount = 1.04
+
+    def __init__(self, first_name, last_name, pay):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.pay = pay
+        self.email = first_name + "." + last_name + "@yourcompany.com"
+        self.employee_raise_amount = 1.04
+
+    # On Python, you do not need to specify the type your function returns
+    def full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    def apply_default_raise(self):
+        self.pay = int(self.pay * self.default_raise_amount)
+
+    def apply_raise(self):
+        self.pay = int(self.pay * self.employee_raise_amount)
+
+    @staticmethod
+    def is_work_day(date): return date.weekday == 5 or date.weekday == 6
+
+    @classmethod
+    def from_string(cls, employee_string):
+        first_name, last_name, pay = employee_string.split('-')
+        return cls(first_name, last_name, pay)
+
+    def __repr__(self):
+        return "Employee('{}', '{}', '{}')".format(self.first_name, self.last_name, self.pay)
+
+    def __str__(self):
+        return "'{}' - '{}')".format(self.full_name(), self.email)
+
+    # We are overriding the behavior of the add function for the Employee class
+    def __add__(self, other):
+        return self.pay + other.pay
+
+
+employee_twelve = Employee('Sarah', 'Connor', 100000)
+employee_thirteen = Employee('Felix', 'Kjellberg', 1000000)
+
+# The + sign is now adding the two salaries together
+print(employee_twelve + employee_thirteen)
+
+# You can find more special arithmetics methods at
+# https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types
+
+
+# Another example we will work with is the len method, that display the length of something
+
+print('The lenght of the characters strings is ' + str(len('Characters')))
+two_size_array = ['First', 'Second']
+print('The lenght of the two_size_array is ' + str(len(two_size_array)))
+
+
+# Now let's override the len method of employee to return the number of characters in the employee full name
+
+class Employee:
+    default_raise_amount = 1.04
+
+    def __init__(self, first_name, last_name, pay):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.pay = pay
+        self.email = first_name + "." + last_name + "@yourcompany.com"
+        self.employee_raise_amount = 1.04
+
+    # On Python, you do not need to specify the type your function returns
+    def full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    def apply_default_raise(self):
+        self.pay = int(self.pay * self.default_raise_amount)
+
+    def apply_raise(self):
+        self.pay = int(self.pay * self.employee_raise_amount)
+
+    @staticmethod
+    def is_work_day(date): return date.weekday == 5 or date.weekday == 6
+
+    @classmethod
+    def from_string(cls, employee_string):
+        first_name, last_name, pay = employee_string.split('-')
+        return cls(first_name, last_name, pay)
+
+    def __repr__(self):
+        return "Employee('{}', '{}', '{}')".format(self.first_name, self.last_name, self.pay)
+
+    def __str__(self):
+        return "'{}' - '{}')".format(self.full_name(), self.email)
+
+    def __add__(self, other):
+        return self.pay + other.pay
+
+    def __len__(self):
+        return len(self.full_name())
+
+
+employee_fourteen = Employee('Nick', 'Fury', 7000)
+print("The number of characters on \"Nick Fury\" (including the spece) is " + str(len(employee_fourteen)))
