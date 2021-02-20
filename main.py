@@ -113,7 +113,6 @@ class Employee:
         self.email = first_name + "." + last_name + "@yourcompany.com"
         self.employee_raise_amount = 1.04
 
-    # On Python, you do not need to specify the type your function returns
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -172,7 +171,6 @@ class Employee:
         self.email = first_name + "." + last_name + "@yourcompany.com"
         self.employee_raise_amount = 1.04
 
-    # On Python, you do not need to specify the type your function returns
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -218,7 +216,6 @@ class Employee:
         self.email = first_name + "." + last_name + "@yourcompany.com"
         self.employee_raise_amount = 1.04
 
-    # On Python, you do not need to specify the type your function returns
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -245,7 +242,7 @@ print(employee_ten.__dict__)
 
 ########################################################################################################################
 
-# #3 Inheritance - Creating Subclasses
+# #4 Inheritance - Creating Subclasses
 
 # On the OOP world, it's common to create a class that has some functionalities and data that is also presented on
 # another class. Let's say for example that we realize that some Employees are managers and some are developers
@@ -264,7 +261,6 @@ class Employee:
         self.email = first_name + "." + last_name + "@yourcompany.com"
         self.employee_raise_amount = 1.04
 
-    # On Python, you do not need to specify the type your function returns
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -344,7 +340,7 @@ print('Is Developer subclass of Employee? ' + str(issubclass(Developer, Manager)
 
 ########################################################################################################################
 
-# #4 Special (Magic/Dunder) Methods
+# #5 Special (Magic/Dunder) Methods
 
 # On Python there are some special methods called Magic Methods (some also say Dunder for Double Underscore)
 # Those special methods allows to emulate some built in behavior within Python and it's also how we implement
@@ -378,7 +374,6 @@ class Employee:
         self.email = first_name + "." + last_name + "@yourcompany.com"
         self.employee_raise_amount = 1.04
 
-    # On Python, you do not need to specify the type your function returns
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -411,11 +406,9 @@ class Employee:
 employee_eleven = Employee('Mark', 'Schafer', 50000)
 print(employee_eleven)
 
-
 # When you add two integers together, what is actually being called is the __add__ method from the int class
 print(1 + 2)
 print(int.__add__(1, 2))
-
 
 # When you "add" two strings together, what is actually being called is the __add__ method from the int class
 print('a' + 'b')
@@ -432,7 +425,6 @@ class Employee:
         self.email = first_name + "." + last_name + "@yourcompany.com"
         self.employee_raise_amount = 1.04
 
-    # On Python, you do not need to specify the type your function returns
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -490,7 +482,6 @@ class Employee:
         self.email = first_name + "." + last_name + "@yourcompany.com"
         self.employee_raise_amount = 1.04
 
-    # On Python, you do not need to specify the type your function returns
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -522,4 +513,4 @@ class Employee:
 
 
 employee_fourteen = Employee('Nick', 'Fury', 7000)
-print("The number of characters on \"Nick Fury\" (including the spece) is " + str(len(employee_fourteen)))
+print("The number of characters on \"Nick Fury\" (including the space) is " + str(len(employee_fourteen)))
