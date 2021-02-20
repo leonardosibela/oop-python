@@ -240,4 +240,108 @@ class Employee:
 employee_ten = Employee.from_string('Kelvin-Klein-900000')
 print(employee_ten.__dict__)
 
+
 # classmethods are commonly used to create additional constructor
+
+########################################################################################################################
+
+# #3 Inheritance - Creating Subclasses
+
+# On the OOP world, it's common to create a class that has some functionalities and data that is also presented on
+# another class. Let's say for example that we realize that some Employees are managers and some are developers
+# and both will have specific methods and parameters, but they should also be able to have all the existing methosa
+# and parameters present in the employee class. To avoid creating those to classes and duplicating those data on the
+# more specific classes (manager and developer), we can use inheritance and reuse them like this:
+
+
+class Employee:
+    default_raise_amount = 1.04
+
+    def __init__(self, first_name, last_name, pay):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.pay = pay
+        self.email = first_name + "." + last_name + "@yourcompany.com"
+        self.employee_raise_amount = 1.04
+
+    # On Python, you do not need to specify the type your function returns
+    def full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    def apply_default_raise(self):
+        self.pay = int(self.pay * self.default_raise_amount)
+
+    def apply_raise(self):
+        self.pay = int(self.pay * self.employee_raise_amount)
+
+    @staticmethod
+    def is_work_day(date): return date.weekday == 5 or date.weekday == 6
+
+    @classmethod
+    def from_string(cls, employee_string):
+        first_name, last_name, pay = employee_string.split('-')
+        return cls(first_name, last_name, pay)
+
+
+# This is the way to specify that the Developer class is a subclass of Employee in Python
+class Developer(Employee):
+    default_raise_amount = 1.10  # Overriding the default_raise_amount value
+
+    # Creating the default constructor with one more parameter and calling the super constructor (from Employeee class)
+    def __init__(self, first_name, last_name, pay, programing_language):
+        super().__init__(first_name, last_name, pay)
+        self.programing_language = programing_language
+
+
+developer = Developer('John', 'Doe', 10000, 'Python')
+developer.apply_default_raise()
+
+print('developer pay after a 10% default raise amount: ' + str(developer.pay))
+
+
+class Manager(Employee):
+
+    def __init__(self, first_name, last_name, pay, employees=None):
+        super().__init__(first_name, last_name, pay)
+        if employees is None:
+            self.employees = []
+        else:
+            self.employees = employees
+
+    def add_employee(self, employee):
+        if employee not in self.employees:
+            self.employees.append(employee)
+
+    def remove_employee(self, employee):
+        if employee in self.employees:
+            self.employees.remove(employee)
+
+    def print_employees(self):
+        for employee in self.employees:
+            print('--> ', employee.full_name())
+
+
+manager = Manager('Sue', 'Smith', 9000, [developer])
+manager.add_employee(employee_ten)
+manager.print_employees()
+
+manager.remove_employee(developer)
+manager.print_employees()
+
+
+# Python has two useful functions: isinstance() and issubclass()
+
+# Let us know that manager is instance of Manager
+print('Is manager instance of Manager? ' + str(isinstance(manager, Manager)))
+
+# Let us know that developer is not instance of Manager
+print('Is developer instance of Manager? ' + str(isinstance(developer, Manager)))
+
+
+# Let us know that Developer class is subclass of Employee
+print('Is Developer subclass of Employee? ' + str(issubclass(Developer, Employee)))
+
+# Let us know that Developer class is not subclass of Manager
+print('Is Developer subclass of Employee? ' + str(issubclass(Developer, Manager)))
+
+
