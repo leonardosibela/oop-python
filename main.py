@@ -17,7 +17,7 @@ print(employee_one)
 print(employee_two)
 print('')
 
-# On python, you can create attributes at runtime
+# In python, you can create attributes at runtime
 employee_one.first_name = 'Leonardo'
 employee_one.last_name = 'Sibela'
 employee_one.email = 'Leonardo.Sibela@company.com'
@@ -31,7 +31,7 @@ print('')
 
 
 # A better option would be to define the attributes in your class
-# On Python, there is nothing like { } to define the scopes. The indentation itself does that.
+# Python uses indetation instead of brackets {} to represent blocks of code.
 # There is not something as ; to represent the end of a instruction.
 class Employee:
     def __init__(self):
@@ -51,15 +51,17 @@ employee_three.pay = 6000
 print("employee_three first name: " + employee_three.first_name)
 print("employee_three last name: " + employee_three.last_name)
 print("employee_three email: " + employee_three.email)
-print("employee_three pay: " + employee_three.pay.__str__())
+print("employee_three pay: " + str(employee_three.pay))
 print('')
 
 
-# Another option would be to define the attributes in your class' constructor
-# On python, the constructor is a magic method called __init__ and you should always define a first parameter
-# that will be the object itself. This is true for any method you create in a class. On languages such as Kotlin
-# or Java you do not need to specify this parameter but you can use it by calling the keyword this.
-# Although the name does not matter, it's a convention to call this parameter self.
+# Another option would be to pass attributes as arguments to your class *initializer*.
+# There's a subtle difference in Python that it separates the instance creation from instance initialization.
+# The commonly called *constructor* in Python is hadled by the magic method __new__ and it runs first, then 
+# the initializer runs and it is handled by the magic method __init__. You should always define a first argument
+# for the initializer that will be the object itself. This is true for any method you create in a class. 
+# On languages such as Kotlin or Java you do not need to specify this parameter but you can use it by calling 
+# the keyword this. Although the name does not matter, it's a convention to call this parameter self.
 class Employee:
     def __init__(self, first_name, last_name, pay):
         self.first_name = first_name
@@ -87,7 +89,7 @@ class Employee:
         self.pay = pay
         self.email = first_name + "." + last_name + "@yourcompany.com"
 
-    # On Python, you do not need to specify the type your function returns
+    # In Python, you do not need to specify the type your function returns
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -181,7 +183,8 @@ class Employee:
         self.pay = int(self.pay * self.employee_raise_amount)
 
     @staticmethod
-    def is_work_day(date): return date.weekday == 5 or date.weekday == 6
+    def is_work_day(date):
+        return date.weekday == 5 or date.weekday == 6
 
 
 employee_eight = Employee('Marco', 'Polo', 1000)
@@ -196,7 +199,7 @@ print('employee_nine calling static method is_work_day(): ' + str(employee_nine.
 
 # Classmethods
 # You can think of a class method as a static method that needs to be aware of it's own class.
-# This is a concept better understand with a example.
+# This is a concept better understood with an example.
 #
 # Let's say that in your system it's common to create a Employee instance from a string of data separated by hyphens.
 # You can create a method that split those values into variables and return a new instance like so:
@@ -235,7 +238,7 @@ class Employee:
 
 
 employee_ten = Employee.from_string('Kelvin-Klein-900000')
-print(employee_ten.__dict__)
+print(vars(employee_ten))
 
 
 # classmethods are commonly used to create additional constructor
@@ -342,7 +345,7 @@ print('Is Developer subclass of Employee? ' + str(issubclass(Developer, Manager)
 
 # #5 Special (Magic/Dunder) Methods
 
-# On Python there are some special methods called Magic Methods (some also say Dunder for Double Underscore)
+# In Python there are some special methods called Magic Methods (some also say Dunder for Double Underscore)
 # Those special methods allows to emulate some built in behavior within Python and it's also how we implement
 # operator overloading. When your hear someone saying dunder init, they mean init surrounded by double underscore
 
@@ -406,13 +409,13 @@ class Employee:
 employee_eleven = Employee('Mark', 'Schafer', 50000)
 print(employee_eleven)
 
-# When you add two integers together, what is actually being called is the __add__ method from the int class
+# When you add two integers together, what is actually being called is the __add__ method from the first integer (1).
 print(1 + 2)
-print(int.__add__(1, 2))
+print((1).__add__(2))
 
-# When you "add" two strings together, what is actually being called is the __add__ method from the int class
+# When you "add" two strings together, what is actually being called is the __add__ method from the first string 'a'.
 print('a' + 'b')
-print(str.__add__('a', 'b'))
+print('a'.__add__('b'))
 
 
 class Employee:
